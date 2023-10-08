@@ -35,12 +35,14 @@ class ProductsController extends Controller
     }
 
     // Modifier un produit
-    public function edit(Products $product) {
+    public function edit(Products $product) 
+    {
         return view('products.edit', ['product' => $product]);
     }
 
     // Mettre à jour un produit
-    public function update(Products $product, Request $request) {
+    public function update(Products $product, Request $request) 
+    {
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'required',
@@ -52,7 +54,8 @@ class ProductsController extends Controller
     }
 
     // Supprimer un produit
-    public function destroy(Products $product) {
+    public function destroy(Products $product) 
+    {
         $product->delete();
 
         return redirect(route('products.index'))->with('success', 'Produit supprimé');
