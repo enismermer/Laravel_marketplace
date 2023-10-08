@@ -36,20 +36,26 @@
 <h1>Liste des produits</h1>
 
 <div class="uper">
-
-  @if(session()->get('success'))
+  <div>
+  @if(session()->has('success'))
     <div class="alert alert-success">
-      {{ session()->get('success') }}  
+      {{ session('success') }}  
     </div><br />
   @endif
+  </div>
+  <div>
+      <a href="{{route('products.create')}}" class="btn btn-primary">Créer un produit</a>
+  </div>
 
   <table class="table table-striped">
 
     <thead>
         <tr>
-          <td>ID</td>
-          <td>Produit</td>
-          <td>Description</td>
+          <th>ID</th>
+          <th>Produit</th>
+          <th>Description</th>
+          <th>Editer</th>
+          <th>Supprimer</th>
         </tr>
     </thead>
 
@@ -59,6 +65,16 @@
             <td>{{$product->id}}</td>
             <td>{{$product->name}}</td>
             <td>{{$product->description}}</td>
+            <td>
+              <a href="{{route('products.edit', ['product' => $product])}}" class="btn btn-warning">Editer</a>
+            </td>
+            <td>
+              <form method="post" action="{{route('products.destroy', ['product' => $product])}}">
+                @csrf
+                @method('delete')
+                <input type="submit" value="Supprimer" class="btn btn-danger">
+              </form>
+            </td>
         </tr>
         @endforeach
     </tbody>

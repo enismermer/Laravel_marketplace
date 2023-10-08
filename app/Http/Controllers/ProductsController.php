@@ -12,8 +12,7 @@ class ProductsController extends Controller
     public function index() 
     {
         $products = Products::all();
-
-        return view('products.index', compact('products'));
+        return view('products.index', ['products' => $products]);
     }
 
     // Afficher un produit
@@ -36,12 +35,32 @@ class ProductsController extends Controller
             'description' => 'required',
         ]);
 
-        $product = new Products();
-        $product->name = $validatedData['name'];
-        $product->description = $validatedData['description'];
-        $product->save();
+        $product = Products::create($validatedData);
 
-        return redirect('/products')->with('success', 'Produit créé avec succès');
+        return redirect(route('products.index'))->with('success', 'Produit créé avec succès');
+    }
+
+    // Modifier un produit
+    public function edit(Products $product) {
+        return view('products.edit', ['product' => $product]);
+    }
+
+    // Mettre à jour un produit
+    public function update(Products $product, Request $request) {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required',
+        ]);
+
+        $product->update($validatedData);
+
+        return redirect(route('products.index'))->with('success', 'Produit mis à jour');
+    }
+
+    public function destroy(Products $product) {
+        $product->delete();
+
+        return redirect(route('products.index'))->with('success', 'Produit supprimé');
     }
 
 }

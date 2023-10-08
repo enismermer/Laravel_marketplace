@@ -13,7 +13,7 @@
 
 <div class="card uper">
   <div class="card-header">
-    <h1>Ajouter un Produit</h1>
+    <h1>Editer un Produit</h1>
   </div>
 
   <div class="card-body">
@@ -27,21 +27,21 @@
       </div><br />
     @endif
 
-      <form method="post" action="{{ route('products.store') }}">
+      <form method="post" action="{{route('products.update', ['product' => $product])}}">
           @csrf
-          @method('post')
+          @method('put')
           <div class="form-group">
               <label for="marque">Nom de produit :</label>
-              <input type="text" class="form-control" name="name" placeholder="Nom"/>
+              <input type="text" class="form-control" name="name" placeholder="Nom" value="{{$product->name}}"/>
           </div>
 
           <div class="form-group">
               <label for="prix">Description du produit :</label>
-              <input type="text" class="form-control" name="description" placeholder="Description"/>
+              <input type="text" class="form-control" name="description" placeholder="Description" value="{{$product->description}}"/>
           </div>
-
-          <button type="submit" class="btn btn-primary">Ajouter</button>
-
+          <div>
+              <input type="submit" class="btn btn-primary" value="Mettre à jour" />
+          </div>
       </form>
   </div>
 </div>
